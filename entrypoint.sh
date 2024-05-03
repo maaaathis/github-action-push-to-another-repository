@@ -172,7 +172,7 @@ git diff-index --quiet HEAD || git commit --message "$COMMIT_MESSAGE"
 
 echo "[+] git pull:"
 # git pull : to avoid doing the git push failing if there are any new commits since local cloning of the repo
-git pull --rebase
+git pull --rebase --strategy-option=theirs
 
 echo "[+] Pushing git commit"
 # --set-upstream: sets de branch when pushing to a branch that does not exist
