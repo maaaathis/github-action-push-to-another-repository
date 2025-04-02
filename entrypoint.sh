@@ -16,6 +16,7 @@ TARGET_BRANCH="${9}"
 COMMIT_MESSAGE="${10}"
 TARGET_DIRECTORY="${11}"
 CREATE_TARGET_BRANCH_IF_NEEDED="${12}"
+CLEAR_TARGET_DIRECTORY="${13:-false}"
 
 if [ -z "$DESTINATION_REPOSITORY_USERNAME" ]
 then
@@ -99,6 +100,13 @@ TEMP_DIR=$(mktemp -d)
 # but not anymore. Otherwise we had to remove the files from "$CLONE_DIR",
 # including "." and with the exception of ".git/"
 mv "$CLONE_DIR/.git" "$TEMP_DIR/.git"
+
+if [ "$CLEAR_TARGET_DIRECTORY" = "true" ] && [ -n "$TARGET_DIRECTORY" ]
+then
+    echo "[+] Clearing target directory completely ($CLONE_DIR/$TARGET_DIRECTORY)"
+    rm -rf "$CLONE_DIR/$TARGET_DIRECTORY"
+    mkdir -p "$CLONE_DIR/$TARGET_DIRECTORY"
+fi
 
 # $TARGET_DIRECTORY is '' by default
 ABSOLUTE_TARGET_DIRECTORY="$CLONE_DIR/$TARGET_DIRECTORY/"
